@@ -3,6 +3,7 @@
 	Retrospect by TEMPLATED
 	templated.co @templatedco
 	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+	//test code
 -->
 <html>
 
@@ -89,8 +90,11 @@
 			</header>
 
 			<div id="dashboardContainer"></div>
-			<h3>Introduction</h3>
-			<p>We have used following AWS Services to create this dashboard.</p>
+			<h3>DATA INGETION</h3>
+			<p>We have used following AWS Services to prepare data for analysis dashboard.</p>
+
+			<a href="#" class="image fit"><img src="images/data-ingestion.png" alt="" /></a>
+
 
 			<h3>AWS Data Exchange</h3>
 			<p>We have used above Data provider and exported their data in S3 for further Analysis.</p>
@@ -114,14 +118,42 @@
 
 			<h3>Amazon QuickSight</h3>
 			<p>Amazon QuickSight is is used to create meaningful analytics dashboard using Athena data catalog.</p>
-			<a href="#" class="image fit"><img src="" alt="" /></a>
+			<a href="#" class="image fit"><img src="images/quicksight-analysis.png" alt="" /></a>
+
+			<h3>QuickSight Dashboard Embedding</h3>
+			<p>We have used following AWS Services to embed quicksight dashboard to the app.</p>
+
+			<a href="#" class="image fit"><img src="images/dashboard_embed.png" alt="" /></a>
+			<h3>AWS Lambda</h3>
+			<p>We have written one Lambda function to get the Embed Url.</p>
+			<a href="#" class="image fit"><img src="images/lambda_fn.png" alt="" /></a>
+
+			<h3>AWS STS</h3>
+			<p>We have written code to authenticate our user and get the embeddable dashboard URL</p>
+			<p>When a user accesses our app, the app should assume the IAM role (created above) on the user's behalf. Then it should add the user to Amazon QuickSight, if that user doesn't already exist. Next, it should pass an identifier as the unique role session ID. 
+				Doing this ensures that each viewer of the dashboard is uniquely provisioned in Amazon QuickSight. It also enforces per-user settings, such as the row-level security and dynamic defaults for parameters.</p>
+			<p>To assume the role, we have choose AssumeRole of AWS Security Token Service (AWS STS) API operations with using IAM identity to assume the role.
+				The assume-role operation returns three output parameters: the access key, the secret key, and the session token.</p>
+			<p>Finally, to get a signed URL for the dashboard, call get-dashboard-embed-url in the Lambda function. This returns the embeddable dashboard URL as output.</p>
+			<a href="#" class="image fit"><img src="images/lambda_fn.png" alt="" /></a>
+			<a href="#" class="image fit"><img src="images/sts.png" alt="" /></a>
+
+			<h3>AWS API Gateway</h3>
+			<p>We have created an API to invoke our Lambda function. In Lambda Using the assumed role, invoke QuickSight API to generate embed url. And Embed url is passed back to client via API Gateway.</p>
+			<a href="#" class="image fit"><img src="images/api.png" alt="" /></a>
+			<p>We have used this API endpoint in the App.</p>
+			<p>Once API Gateway response is received, JavaScript passes embed Url and a div to embedDashboard function (This function is present in the QuickSight JS library that is added to the portal page). The url is embedded into an iframe within the identified div and loads the dashboard from QuickSight. The dashboard is fully interactive just as in QuickSight portal. </p>
+			<a href="#" class="image fit"><img src="images/code.png" alt="" /></a>
+
+			<p>Thank you for Reading! </p>
+
 		</div>
 	</section>
 
 	<!-- Footer -->
 	<footer id="footer">
 		<div class="inner">
-			<ul class="icons">
+			<!-- <ul class="icons">
 				<li><a href="#" class="icon fa-facebook">
 						<span class="label">Facebook</span>
 					</a></li>
@@ -134,7 +166,7 @@
 				<li><a href="#" class="icon fa-linkedin">
 						<span class="label">LinkedIn</span>
 					</a></li>
-			</ul>
+			</ul> -->
 			<ul class="copyright">
 				<li>&copy; CapstoneTeam17</li>
 
